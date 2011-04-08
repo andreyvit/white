@@ -1,6 +1,6 @@
 require 'optparse'
 
-class Whitespace
+class White
 
   def self.run args
     extensions = %w/rb java xml md coffee js html css less yml php info install module h m txt/
@@ -12,7 +12,7 @@ class Whitespace
     verbose = false
 
     opts = OptionParser.new do |opts|
-      opts.banner = "Usage: whitespace [options]"
+      opts.banner = "Usage: white [options]"
 
       opts.separator ""
       opts.separator "Tab expansion:"

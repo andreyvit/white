@@ -7,7 +7,7 @@ Run from your project folder before committing to Git to avoid whitespace errors
 Installation
 ------------
 
-    sudo gem install whitespace
+    sudo gem install white
 
 
 Usage
@@ -15,15 +15,15 @@ Usage
 
     cd MyProject
     ...hack hack hack...
-    whitespace
+    white
     git commit -a -m "Add another awesome feature"
 
 
 Options
 -------
 
-    $ whitespace --help
-    Usage: whitespace [options]
+    $ white --help
+    Usage: white [options]
 
     Tab expansion:
         -t, --tabsize=SIZE               Expand tabs using the given tab size
