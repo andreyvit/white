@@ -3,13 +3,14 @@ require 'optparse'
 class White
 
   def self.run args
-    extensions = %w/rb java xml md coffee js html css less yml php info install module h m txt/
+    extensions = %w/rb java xml md markdown coffee js eco html haml css less styl yml php info install module h m c txt/
     names = %w/Rakefile Cakefile/
     default_tab_size = nil
     tab_sizes = {
     }
-    exclusions = ['**/.git/**']
+    exclusions = ['**/.git/**', '**/node_modules/**/*']
     verbose = false
+    dry_run = false
 
     opts = OptionParser.new do |opts|
       opts.banner = "Usage: white [options]"
@@ -28,12 +29,16 @@ class White
         extensions << v
       end
 
-      opts.on("-n", "--name=NAME", "Include files with the given name (e.g. -n Cakefile)") do |v|
+      opts.on("-i", "--name=NAME", "Include files with the given name (e.g. -n Cakefile)") do |v|
         names << v
       end
 
       opts.separator ""
       opts.separator "Common options:"
+
+      opts.on("-n", "--dry-run", "Don't actually change anything on disk") do
+        dry_run = true
+      end
 
       opts.on("-v", "--verbose", "Show a full list of processed files") do
         verbose = true
@@ -66,6 +71,10 @@ class White
       original = text.dup
 
       prev = text.dup
+      text.gsub! /\r/, ''
+      errors << "Windows line breaks" if text != prev
+
+      prev = text.dup
       text.gsub! /[ \t]+$/, ''
       errors << "trailing whitespace" if text != prev
 
@@ -89,7 +98,7 @@ class White
 
       if text != original
         puts "#{file} (#{errors.join(', ')})"
-        File.open(file, 'w') { |f| f.write text }
+        File.open(file, 'w') { |f| f.write text } unless dry_run
       else
         puts "#{file} OK" if verbose
       end
