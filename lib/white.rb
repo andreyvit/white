@@ -59,6 +59,8 @@ class White
       files -= Dir[exclusion]
     end
 
+    files -= Dir['**/.keepwhitespace'].map { |f| Dir[File.join(File.dirname(f), '**/*')] }.flatten
+
     files_with_tabs = []
 
     files.each do |file|
