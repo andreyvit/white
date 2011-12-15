@@ -80,6 +80,10 @@ class White
       text.gsub! /[ \t]+$/, ''
       errors << "trailing whitespace" if text != prev
 
+      prev = text.dup
+      text.gsub! /\r/, ''
+      errors << "Windows line breaks" if text != prev
+
       if text =~ /^ *?\t[\t ]*/
         if default_tab_size == nil
           files_with_tabs << file unless files_with_tabs.include?(file)
